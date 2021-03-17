@@ -1,110 +1,128 @@
-import 'package:flutter/material.dart';
+// ignore: unused_import
+import "package:firebase_core/firebase_core.dart";
+import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:flutter/material.dart";
+import "package:youchu_/profile.dart" as profile;
+import "package:youchu_/home.dart" as home;
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in a Flutter IDE). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      title: "YouChu",
+      home: YouChu(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class YouChu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+    return new Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 100, left: 0),
+              child: Image.asset('assets/Logo.jpg'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            Container(
+              margin: EdgeInsets.only(top: 30, left: 0),
+              child: Image.asset('assets/chu.jpg'),
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+            Container(
+              margin: EdgeInsets.only(top: 30, left: 30),
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "이메일",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 28, top: 10, right: 28),
+              height: 50,
+              child: TextField(
+                  decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "이메일을 입력하세요.",
+              )),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 30),
+              alignment: Alignment.centerLeft,
+              child: Text("비밀번호",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 28, right: 28),
+              height: 50,
+              child: TextField(
+                  decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "비밀번호를 입력하세요.",
+              )),
+            ),
+            Container(
+              width: 350,
+              height: 50,
+              margin: EdgeInsets.only(top: 20),
+              child: RaisedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => home.WidgetDemo()));
+                  },
+                  child: Text("로그인",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  color: Colors.red),
+            ),
+            Container(
+                margin: EdgeInsets.only(top: 10),
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Text("다른계정으로 로그인"),
+                  color: Colors.white,
+                )),
+            Container(
+              child: Image.asset('assets/Log1.jpg'),
+            ),
+            Container(
+                margin: EdgeInsets.only(left: 145, top: 10),
+                child: Row(children: <Widget>[
+                  Container(
+                    child: Text("페이스북"),
+                  ),
+                  SizedBox(width: 30),
+                  Container(
+                    child: Text("구글"),
+                  )
+                ])),
+            Container(
+                margin: EdgeInsets.only(top: 10), child: Text("계정이 없으신가요?")),
+            Container(
+                margin: EdgeInsets.only(bottom: 40),
+                child: FlatButton(
+                  child: Text("회원가입하기"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => profile.WidgetDemo()),
+                    );
+                  },
+                  color: Colors.white,
+                ))
+          ]),
+        ));
   }
 }
